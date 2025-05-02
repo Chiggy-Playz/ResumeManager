@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>📄 Upload Dashboard</title>
+    <style>
+        body {
+            font-family: "Segoe UI", sans-serif;
+            background: #f8f9fa;
+            color: #333;
+            margin: 0;
+            padding: 2rem;
+        }
+
+        h1 {
+            text-align: center;
+            color: #6c5ce7;
+            margin-bottom: 1rem;
+        }
+
+        .upload-form {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 1rem;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+        }
+
+        .upload-form input[type="file"] {
+            flex-grow: 1;
+            margin-right: 1rem;
+        }
+
+        .upload-form button {
+            background-color: #6c5ce7;
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .upload-form button:hover {
+            background-color: #5a4dcf;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+        }
+
+        th {
+            background-color: #a29bfe;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f1f3f5;
+        }
+
+        .actions button {
+            background-color: #6c5ce7;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            margin-right: 0.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .actions button:hover {
+            background-color: #5a4dcf;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+            background-color: #ffeaa7;
+            color: #2d3436;
+            border-radius: 6px;
+            margin-left: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+<h1>📂 Uploaded Documents</h1>
+
+<!-- 📤 Upload Form -->
+<form class="upload-form" action="/api/upload" method="post" enctype="multipart/form-data">
+    <input type="file" name="file" accept="application/pdf" required>
+    <button type="submit">Upload PDF</button>
+</form>
+
+<!-- 📄 Uploaded Files Table -->
+<table>
+    <thead>
+    <tr>
+        <th>📎 File Name</th>
+        <th>📅 Uploaded At</th>
+        <th>⚙️ Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="file : ${files}">
+        <td>
+            <span th:text="${file.filename}"></span>
+            <span th:if="${file.current()}" class="badge">Current</span>
+        </td>
+        <td th:text="${file.uploadedAt}"></td>
+        <td class="actions">
+            <form th:action="@{'/api/download/' + ${file.filename}}" method="get" style="display:inline;">
+                <button type="submit">Download</button>
+            </form>
+            <form action="/api/set-current" method="post" style="display:inline;">
+                <input type="hidden" name="filename" th:value="${file.filename}" />
+                <button type="submit">Set Current</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
