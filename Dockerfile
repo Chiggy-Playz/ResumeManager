@@ -15,7 +15,7 @@ FROM eclipse-temurin:21-jdk-alpine
 COPY --from=build /home/gradle/project/build/libs/*.jar app.jar
 
 # Expose port
-EXPOSE 8080
+EXPOSE 8338
 
 # Run the app
 ENTRYPOINT ["java", "-jar", "app.jar"]
