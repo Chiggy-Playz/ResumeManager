@@ -4,12 +4,9 @@ import com.chiggy.resumeviewer.exception.InvalidFileType;
 import com.chiggy.resumeviewer.models.UploadedFileModel;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -19,8 +16,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.Instant;
+import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
-import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -59,6 +56,7 @@ public class FileService {
         if (!fileName.endsWith(".pdf")) {
             throw new InvalidFileType();
         }
+
         // Write file as current time
         Instant now = Instant.now();
         Path targetLocation = uploadFolder.toPath().resolve(now.toEpochMilli() + "_" + fileName);
@@ -75,14 +73,11 @@ public class FileService {
         List<UploadedFileModel> fileModels = new ArrayList<>();
         boolean current = true;
         for (File file : files) {
-            System.out.println(file.getName());
+            Instant uploadedAt = Instant.ofEpochMilli(Long.parseLong(file.getName().split("_", 2)[0]));
             fileModels.add(
                     new UploadedFileModel(
                             file.getName().split("_", 2)[1],
-                            Instant
-                                    .ofEpochMilli(file.lastModified()).
-                                    atOffset(ZoneOffset.ofHoursMinutes(5, 30))
-                                    .toString(),
+                            uploadedAt,
                             current
                     )
             );
@@ -91,7 +86,14 @@ public class FileService {
         }
 
         return fileModels;
-
     }
 
+    public File getFileByTimestamp(String timestamp) {
+        File[] files = uploadFolder.listFiles((dir, name) -> name.toLowerCase().endsWith(".pdf") && name.startsWith(timestamp));
+        if (files == null || files.length == 0) {
+            return null;
+        }
+
+        return files[0];
+    }
 }

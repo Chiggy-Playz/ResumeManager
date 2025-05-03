@@ -121,15 +121,15 @@
     <tr th:each="file : ${files}">
         <td>
             <span th:text="${file.filename}"></span>
-            <span th:if="${file.current()}" class="badge">Current</span>
+            <span th:if="${file.current}" class="badge">Current</span>
         </td>
-        <td th:text="${file.uploadedAt}"></td>
+        <td th:text="${file.uploadedAtFormatted()}"></td>
         <td class="actions">
-            <form th:action="@{'/api/download/' + ${file.filename}}" method="get" style="display:inline;">
+            <form th:action="@{'/api/download/' + ${file.uploadedAt.toEpochMilli()}}" method="get" style="display:inline;">
                 <button type="submit">Download</button>
             </form>
             <form action="/api/set-current" method="post" style="display:inline;">
-                <input type="hidden" name="filename" th:value="${file.filename}" />
+                <input type="hidden" name="filename" th:value="${file.uploadedAt.toEpochMilli()}" />
                 <button type="submit">Set Current</button>
             </form>
         </td>
