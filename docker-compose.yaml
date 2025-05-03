@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   resumeviewer:
+    container_name: resume-viewer
     build: .
 #    ports:
 #      - "8080:8080"
