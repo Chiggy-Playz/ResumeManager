@@ -3,8 +3,8 @@ version: '3.8'
 services:
   resumeviewer:
     build: .
-    ports:
-      - "8080:8080"
+#    ports:
+#      - "8080:8080"
     environment:
       UPLOAD_AUTH_USERNAME: changeme
       UPLOAD_AUTH_PASSWORD: changeme
