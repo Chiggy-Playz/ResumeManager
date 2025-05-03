@@ -9,4 +9,4 @@ services:
       UPLOAD_AUTH_USERNAME: changeme
       UPLOAD_AUTH_PASSWORD: changeme
     volumes:
-      - .uploads:/app/uploads
+      - ./uploads:/uploads
