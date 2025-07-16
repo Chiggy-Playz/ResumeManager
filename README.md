@@ -1,7 +1,7 @@
 
 # 📄 Resume Manager
 
-**Resume Manager** is a lightweight Java Spring Boot application that lets you upload, manage, and serve your resume at a public URL — like [`resume.chiggydoes.tech`](https://resume.chiggydoes.tech). It supports versioned uploads and allows setting one version as "current", making sharing your resume seamless and up-to-date.
+**Resume Manager** is a lightweight Java Spring Boot application that lets you upload, manage, and serve your resume at a public URL like [`resume.chiggydoes.tech`](https://resume.chiggydoes.tech). It supports versioned uploads and allows setting one version as "current", making sharing your resume seamless and up-to-date.
 
 ---
 
@@ -10,7 +10,7 @@
 - 🔐 Auth-protected PDF upload interface
 - 📄 Serve and view your current resume
 - 🕓 Track upload timestamps
-- 📦 Self-contained — no database required
+- 📦 Self-contained: no database required
 - 🚀 One-command deployment via Docker Compose
 
 ---
