@@ -46,10 +46,11 @@ public class PdfController {
             contentType = "application/pdf";
         }
 
+        String currentDate = java.time.LocalDate.now().format(java.time.format.DateTimeFormatter.ofPattern("dd-MM-yyyy"));
         return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(contentType))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"Chirag Garg - Resume\"")
-                .body(resource);
+            .contentType(MediaType.parseMediaType(contentType))
+            .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"Chirag Garg - Resume - " + currentDate + "\"")
+            .body(resource);
     }
 
     @GetMapping("/upload")
